@@ -4,11 +4,15 @@ import {
   StyleSheet,
   Text,
   View,
-  Button
+  Button,
+  CameraRoll,
+  ToastAndroid
 } from 'react-native';
 
 import ActionButton from 'react-native-action-button';
 import Emoji from 'react-native-emoji';
+
+import ViewShot from "react-native-view-shot";
 
 import Realm from 'realm';
 import WorkoutEntry from './../models/WorkoutEntry';
@@ -50,6 +54,17 @@ export class IndexScreen extends React.Component {
     })
   }
 
+  share = () => {
+    this.refs.viewShot.capture().then(uri => {
+      CameraRoll.saveToCameraRoll(uri).then(
+        ToastAndroid.show('Screenshot saved to CameraRoll', ToastAndroid.SHORT),
+        error => { alert(error) });
+    },
+    error => {
+      alert(error);
+    });
+  }
+
   render() {
     let rows = _.chunk(this.state.workouts, 5);
     let workoutsRows = rows.map((row, index) => {
@@ -62,14 +77,21 @@ export class IndexScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          You've done {this.state.workouts.length} workouts!
-        </Text>
-        {workoutsRows}
+        <ViewShot ref="viewShot" options={{ format: "jpg", quality: 0.9 }}>
+          <View style={{ backgroundColor: '#F5FCFF' }}>
+            <Text style={styles.welcome}>
+              You've done {this.state.workouts.length} workouts!
+            </Text>
+            {workoutsRows}
+          </View>
+        </ViewShot>
         <ActionButton
           buttonColor="#6698FF"
           onPress={() => { this.props.navigation.navigate("New") }}
         />
+        <View style={{marginTop: 50}}>
+          <Button onPress={this.share} title="Share" />
+        </View>
       </View>
     );
   }

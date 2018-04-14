@@ -12,6 +12,7 @@
     "react-native": "0.55.2",
     "react-native-action-button": "^2.8.4",
     "react-native-emoji": "git+https://github.com/jorilallo/react-native-emoji.git",
+    "react-native-view-shot": "^2.3.0",
     "react-navigation": "^1.5.11",
     "realm": "^2.3.4"
   },
