@@ -57,7 +57,7 @@ export class IndexScreen extends React.Component {
         </Text>
         {workouts}
         <ActionButton
-          buttonColor="rgba(231,76,60,1)"
+          buttonColor="#6698FF"
           onPress={() => { this.props.navigation.navigate("New") }}
         />
       </View>

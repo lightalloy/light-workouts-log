@@ -17,6 +17,8 @@ import {
   StackNavigator,
 } from 'react-navigation';
 
+const workoutTypes = ['athletic_shoe', 'ice_skate', 'ski', 'dancer', 'basketball'];
+
 export class NewScreen extends React.Component {
 
   state = { workoutType: 'athletic_shoe', realm: null }
@@ -30,39 +32,30 @@ export class NewScreen extends React.Component {
   saveWorkout = () => {
     let realm = this.state.realm;
     realm.write(() => {
-      const time_entry = realm.create(WorkoutEntry, { id: 2, workoutType: this.state.workoutType, time: new Date().getTime(), comment: 'test' }); // this.nextId()
+      const time_entry = realm.create(WorkoutEntry, { id: 3, workoutType: this.state.workoutType, time: new Date().getTime(), comment: 'test' }); // this.nextId()
       alert('truly saved');
       this.props.navigation.navigate("Index");
     });
   }
 
   render() {
+      let workoutOptions = workoutTypes.map((option, index) => {
+        return (
+          <View style={styles.item}>
+            <Text style={{textAlign: 'center', fontSize: 40, backgroundColor: ( option == this.state.workoutType ? 'skyblue' : '#F5FCFF')}} onPress={() => { this.setState( { workoutType: option } ) } }>
+              <Emoji name={option} />
+            </Text>
+          </View>
+        )
+      });
+
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>I've done a workout!!!</Text>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <View style={{width: 50, height: 50}}>
-            <Text style={{fontSize: 30}} onPress={() => { alert('select!'); this.setState( { workoutType: 'athletic_shoe' } ) } }>
-              <Emoji name="athletic_shoe" />
-            </Text>
-          </View>
-          <View style={{width: 50, height: 50}}>
-            <Text style={{fontSize: 30}} onPress={() => { alert('select!'); this.setState( { workoutType: 'ice_skate' } ) } }>
-              <Emoji name="ice_skate" />
-            </Text>
-          </View>
-          <View style={{width: 50, height: 50}}>
-            <Text style={{fontSize: 30}} onPress={() => { alert('select!'); this.setState( { workoutType: 'ski' } ) } }>
-              <Emoji name="ski" />
-            </Text>
-          </View>
-          <View style={{width: 50, height: 50}}>
-            <Text style={{fontSize: 30}} onPress={() => { alert('select!'); this.setState( { workoutType: 'dancer' } ) } }>
-              <Emoji name="dancer" />
-            </Text>
-          </View>
+      <View style={styles.container}>
+        <Text style={styles.text}>I've done a workout!!!</Text>
+        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          {workoutOptions}
         </View>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           <Button
             color="#6698FF"
             title="Yeah!"
@@ -73,5 +66,30 @@ export class NewScreen extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  item: {
+    width: 50,
+    height: 50,
+    margin: 10
+  },
+  text: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+    textAlign: 'center',
+    color: 'grey',
+    marginBottom: 5,
+  },
+});
+
+
+
 
 export default NewScreen;
