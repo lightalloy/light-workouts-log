@@ -22,7 +22,7 @@ export class WorkoutItem extends React.Component {
       <View style={styles.item}>
         <Text>
           <Text style={styles.caption}>{`${day}.${month}`} </Text>
-          <Text style={styles.caption} onPress={() => { this.props.handleDelete(this.props.workout.id) }}>x</Text>
+          <Text style={{ fontSize: 15, color: 'red' }} onPress={() => { this.props.handleDelete(this.props.workout.id) }}>x</Text>
         </Text>
         <Text style={{fontSize: 40}}>
           <Emoji name={this.props.workout.workoutType} />

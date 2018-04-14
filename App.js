@@ -34,6 +34,7 @@ const RootStack = StackNavigator(
   },
   {
     initialRouteName: 'Index',
+    headerMode: 'none'
   }
 );
 
