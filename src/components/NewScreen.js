@@ -29,10 +29,15 @@ export class NewScreen extends React.Component {
     });
   }
 
+  nextWorkoutId = () => {
+    let entries = this.state.realm.objects('WorkoutEntry').sorted('id', true)
+    return (entries.length > 0 ? entries[0].id + 1 : 1)
+  }
+
   saveWorkout = () => {
     let realm = this.state.realm;
     realm.write(() => {
-      const time_entry = realm.create(WorkoutEntry, { id: 3, workoutType: this.state.workoutType, time: new Date().getTime(), comment: 'test' }); // this.nextId()
+      const time_entry = realm.create(WorkoutEntry, { id: this.nextWorkoutId(), workoutType: this.state.workoutType, time: new Date().getTime(), comment: 'test' }); // this.nextId()
       alert('truly saved');
       this.props.navigation.navigate("Index");
     });
