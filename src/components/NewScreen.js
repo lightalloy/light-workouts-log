@@ -17,7 +17,13 @@ import {
   StackNavigator,
 } from 'react-navigation';
 
-const workoutTypes = ['athletic_shoe', 'ice_skate', 'ski', 'dancer', 'basketball'];
+const workoutTypes = {
+                       athletic_shoe: 'Jogging',
+                       ice_skate: 'Skating',
+                       ski: 'Skiing',
+                       dancer: 'Dancing',
+                       basketball: 'Basketball'
+                     };
 
 export class NewScreen extends React.Component {
 
@@ -38,13 +44,12 @@ export class NewScreen extends React.Component {
     let realm = this.state.realm;
     realm.write(() => {
       const time_entry = realm.create(WorkoutEntry, { id: this.nextWorkoutId(), workoutType: this.state.workoutType, time: new Date().getTime(), comment: 'test' }); // this.nextId()
-      alert('truly saved');
       this.props.navigation.navigate("Index");
     });
   }
 
   render() {
-      let workoutOptions = workoutTypes.map((option, index) => {
+      let workoutOptions = Object.keys(workoutTypes).map((option, index) => {
         return (
           <View style={styles.item}>
             <Text style={{textAlign: 'center', fontSize: 40, backgroundColor: ( option == this.state.workoutType ? 'skyblue' : '#F5FCFF')}} onPress={() => { this.setState( { workoutType: option } ) } }>
@@ -59,6 +64,9 @@ export class NewScreen extends React.Component {
         <Text style={styles.text}>I've done a workout!!!</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           {workoutOptions}
+        </View>
+        <View style={{ flexDirection: 'row', marginBottom: 10}}>
+          <Text style={styles.text}>{workoutTypes[this.state.workoutType]}</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           <Button
