@@ -7,10 +7,11 @@ import {
   Button
 } from 'react-native';
 
-// import Realm from 'realm'
-// import WorkoutEntry from './../models/WorkoutEntry'
 
 import Emoji from 'react-native-emoji';
+
+import Realm from 'realm';
+import WorkoutEntry from './../models/WorkoutEntry'
 
 import {
   StackNavigator,
@@ -20,11 +21,20 @@ export class NewScreen extends React.Component {
 
   state = { workoutType: 'athletic_shoe', realm: null }
 
-  // componentWillMount() {
-  //   Realm.open({ schema: [WorkoutEntry] }).then(realm => { // here is realm
-  //     this.setState({ realm: realm });  // set it to state
-  //   });
-  // }
+  componentWillMount() {
+    Realm.open({ schema: [WorkoutEntry] }).then(realm => { // here is realm
+      this.setState({ realm: realm });  // set it to state
+    });
+  }
+
+  saveWorkout = () => {
+    let realm = this.state.realm;
+    realm.write(() => {
+      const time_entry = realm.create(WorkoutEntry, { id: 2, workoutType: this.state.workoutType, time: new Date().getTime(), comment: 'test' }); // this.nextId()
+      alert('truly saved');
+      this.props.navigation.navigate("Index");
+    });
+  }
 
   render() {
     return (
@@ -52,24 +62,16 @@ export class NewScreen extends React.Component {
             </Text>
           </View>
         </View>
-        <Button
-          color="#6698FF"
-          title="Yeah!"
-          onPress={() => { this.saveWorkout }}
-        />
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Button
+            color="#6698FF"
+            title="Yeah!"
+            onPress={this.saveWorkout}
+          />
+        </View>
       </View>
     );
   }
-
-  // saveWorkout = () => {
-  //   alert('Saved!');
-  //   let realm = this.state.realm;
-  //   realm.write(() => {
-  //     const time_entry = realm.create(WorkoutEntry, { id: 1, workoutType: this.state.workoutType, time: new Date().getTime() }); // this.nextId()
-  //     alert('truly saved');
-  //     this.props.navigation.navigate("Index");
-  //   });
-  // }
 }
 
 export default NewScreen;
