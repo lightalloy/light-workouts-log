@@ -57,10 +57,10 @@ export class NewScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.text}>I've done a workout!!!</Text>
-        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           {workoutOptions}
         </View>
-        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           <Button
             color="#6698FF"
             title="Yeah!"
@@ -75,7 +75,7 @@ export class NewScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },

@@ -14,6 +14,8 @@ import Realm from 'realm';
 import WorkoutEntry from './../models/WorkoutEntry';
 import WorkoutItem from './../components/WorkoutItem'
 
+var _ = require('lodash');
+
 import {
   StackNavigator,
 } from 'react-navigation';
@@ -39,15 +41,14 @@ export class IndexScreen extends React.Component {
     this.setState({ workouts: realm.objects('WorkoutEntry') });
   }
 
-
   render() {
-    let workouts = this.state.workouts.map((workout, index) => {
-      return (
-        <WorkoutItem key={index} workout={workout} />
-               // handleDelete={this.props.handleDelete.bind(this)}
-               // handleEdit={this.props.handleEdit.bind(this)}
-
-      )
+    let rows = _.chunk(this.state.workouts, 5);
+    let workoutsRows = rows.map((row, index) => {
+        return (<View key={index} style={styles.row}>
+          {row.map((workout, j) => {
+            return (<WorkoutItem key={j} workout={workout} />)
+          })}
+        </View>);
     });
 
     return (
@@ -55,7 +56,7 @@ export class IndexScreen extends React.Component {
         <Text style={styles.welcome}>
           You've done {this.state.workouts.length} workouts!
         </Text>
-        <View style={styles.row}>{workouts}</View>
+        {workoutsRows}
         <ActionButton
           buttonColor="#6698FF"
           onPress={() => { this.props.navigation.navigate("New") }}
@@ -73,8 +74,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   row: {
-    flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    height: 80,
+    alignItems: 'flex-start'
   },
   welcome: {
     fontSize: 20,
