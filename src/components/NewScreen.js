@@ -32,6 +32,7 @@ export class NewScreen extends React.Component {
   componentWillMount() {
     Realm.open({ schema: [WorkoutEntry] }).then(realm => { // here is realm
       this.setState({ realm: realm });  // set it to state
+      // this.prepopulate();
     });
   }
 
@@ -43,7 +44,7 @@ export class NewScreen extends React.Component {
   saveWorkout = () => {
     let realm = this.state.realm;
     realm.write(() => {
-      const time_entry = realm.create(WorkoutEntry, { id: this.nextWorkoutId(), workoutType: this.state.workoutType, time: new Date().getTime(), comment: 'test' }); // this.nextId()
+      const wEntry = realm.create(WorkoutEntry, { id: this.nextWorkoutId(), workoutType: this.state.workoutType, time: new Date().getTime(), comment: 'test' });
       this.props.navigation.navigate("Index");
     });
   }

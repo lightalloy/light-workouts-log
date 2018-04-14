@@ -39,10 +39,8 @@ export class IndexScreen extends React.Component {
     });
   }
 
-  // loadWorkouts = async() => {
   loadWorkouts = () => {
-    let realm = this.state.realm;
-    this.setState({ workouts: realm.objects('WorkoutEntry') });
+    this.setState({ workouts: this.state.realm.objects('WorkoutEntry').sorted('time', false) });
   }
 
   deleteWorkout = (id) => {
@@ -50,7 +48,7 @@ export class IndexScreen extends React.Component {
     let workoutEntry = realm.objectForPrimaryKey('WorkoutEntry', id);
     realm.write(() => {
       realm.delete(workoutEntry);
-      this.setState({ workouts: realm.objects('WorkoutEntry') });
+      this.loadWorkouts();
     })
   }
 
