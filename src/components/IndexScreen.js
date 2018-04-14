@@ -12,21 +12,50 @@ import Emoji from 'react-native-emoji';
 
 import Realm from 'realm';
 import WorkoutEntry from './../models/WorkoutEntry';
+import WorkoutItem from './../components/WorkoutItem'
 
 import {
   StackNavigator,
 } from 'react-navigation';
 
 export class IndexScreen extends React.Component {
+
+  state = { workouts: [], realm: null }
+
+  componentWillMount() {
+
+  }
+
+  componentDidMount() {
+    Realm.open({ schema: [WorkoutEntry] }).then(realm => { // here is realm
+      this.setState({ realm: realm });  // set it to state
+      this.loadWorkouts();
+    });
+  }
+
+  // loadWorkouts = async() => {
+  loadWorkouts = () => {
+    let realm = this.state.realm;
+    this.setState({ workouts: realm.objects('WorkoutEntry') });
+  }
+
+
   render() {
+    let workouts = this.state.workouts.map((workout, index) => {
+      return (
+        <WorkoutItem key={index} workout={workout} />
+               // handleDelete={this.props.handleDelete.bind(this)}
+               // handleEdit={this.props.handleEdit.bind(this)}
+
+      )
+    });
+
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          You've done {this.state.workouts.length} workouts!
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
+        {workouts}
         <ActionButton
           buttonColor="rgba(231,76,60,1)"
           onPress={() => { this.props.navigation.navigate("New") }}
