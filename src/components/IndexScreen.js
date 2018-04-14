@@ -55,7 +55,7 @@ export class IndexScreen extends React.Component {
         <Text style={styles.welcome}>
           You've done {this.state.workouts.length} workouts!
         </Text>
-        {workouts}
+        <View style={styles.row}>{workouts}</View>
         <ActionButton
           buttonColor="#6698FF"
           onPress={() => { this.props.navigation.navigate("New") }}
@@ -68,9 +68,13 @@ export class IndexScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    alignItems: 'flex-start',
     backgroundColor: '#F5FCFF',
+  },
+  row: {
+    flex: 1,
+    flexDirection: 'row'
   },
   welcome: {
     fontSize: 20,

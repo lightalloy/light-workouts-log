@@ -18,8 +18,8 @@ export class WorkoutItem extends React.Component {
     let day = date.getDate();
     day = day < 10 ? `0${day}` : day;
     return (
-      <View>
-        <Text>{`${day}.${month}`}</Text>
+      <View style={styles.item}>
+        <Text style={{fontSize: 15, textAlign: 'center'}}>{`${day}.${month}`}</Text>
         <Text style={{fontSize: 40}}>
           <Emoji name={this.props.workout.workoutType} />
         </Text>
@@ -27,6 +27,15 @@ export class WorkoutItem extends React.Component {
     );
   }
 }
+
+
+const styles = StyleSheet.create({
+  item: {
+    width: 50,
+    height: 50,
+    margin: 10
+  }
+});
 
 export default WorkoutItem;
 
