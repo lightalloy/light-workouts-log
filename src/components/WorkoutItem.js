@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
+  Button,
   View
 } from 'react-native';
 
@@ -19,7 +20,10 @@ export class WorkoutItem extends React.Component {
     day = day < 10 ? `0${day}` : day;
     return (
       <View style={styles.item}>
-        <Text style={{fontSize: 15, textAlign: 'center'}}>{`${day}.${month}`}</Text>
+        <Text>
+          <Text style={styles.caption}>{`${day}.${month}`} </Text>
+          <Text style={styles.caption} onPress={() => { this.props.handleDelete(this.props.workout.id) }}>x</Text>
+        </Text>
         <Text style={{fontSize: 40}}>
           <Emoji name={this.props.workout.workoutType} />
         </Text>
@@ -34,6 +38,10 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     margin: 10
+  },
+  caption: {
+    fontSize: 15,
+    textAlign: 'center'
   }
 });
 

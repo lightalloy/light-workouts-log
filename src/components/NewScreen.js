@@ -51,7 +51,7 @@ export class NewScreen extends React.Component {
   render() {
       let workoutOptions = Object.keys(workoutTypes).map((option, index) => {
         return (
-          <View style={styles.item}>
+          <View key={index} style={styles.item}>
             <Text style={{textAlign: 'center', fontSize: 40, backgroundColor: ( option == this.state.workoutType ? 'skyblue' : '#F5FCFF')}} onPress={() => { this.setState( { workoutType: option } ) } }>
               <Emoji name={option} />
             </Text>
@@ -62,17 +62,26 @@ export class NewScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.text}>I've done a workout!!!</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={styles.row}>
           {workoutOptions}
         </View>
         <View style={{ flexDirection: 'row', marginBottom: 10}}>
           <Text style={styles.text}>{workoutTypes[this.state.workoutType]}</Text>
         </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={styles.row}>
           <Button
             color="#6698FF"
-            title="Yeah!"
+            title="Done!"
+            accessibilityLabel="Add the Workout"
             onPress={this.saveWorkout}
+          />
+        </View>
+        <View style={styles.bottomRow}>
+          <Button
+            color="skyblue"
+            title="Back To Workouts!"
+            onPress={() => { this.props.navigation.navigate("Index") }}
+            accessibilityLabel="Back To Workouts!"
           />
         </View>
       </View>
@@ -87,6 +96,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   item: {
     width: 50,
     height: 50,
@@ -100,6 +114,12 @@ const styles = StyleSheet.create({
     color: 'grey',
     marginBottom: 5,
   },
+  bottomRow: {
+    marginTop: 100,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
+  }
 });
 
 

@@ -41,12 +41,21 @@ export class IndexScreen extends React.Component {
     this.setState({ workouts: realm.objects('WorkoutEntry') });
   }
 
+  deleteWorkout = (id) => {
+    let realm = this.state.realm;
+    let workoutEntry = realm.objectForPrimaryKey('WorkoutEntry', id);
+    realm.write(() => {
+      realm.delete(workoutEntry);
+      this.setState({ workouts: realm.objects('WorkoutEntry') });
+    })
+  }
+
   render() {
     let rows = _.chunk(this.state.workouts, 5);
     let workoutsRows = rows.map((row, index) => {
         return (<View key={index} style={styles.row}>
           {row.map((workout, j) => {
-            return (<WorkoutItem key={j} workout={workout} />)
+            return (<WorkoutItem key={j} handleDelete={this.deleteWorkout} workout={workout} />)
           })}
         </View>);
     });
