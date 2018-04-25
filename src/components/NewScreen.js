@@ -4,7 +4,9 @@ import {
   StyleSheet,
   Text,
   View,
-  Button
+  Button,
+  TouchableHighlight,
+  Image
 } from 'react-native';
 
 
@@ -13,21 +15,32 @@ import Emoji from 'react-native-emoji';
 import Realm from 'realm';
 import WorkoutEntry from './../models/WorkoutEntry'
 
+import WorkoutIcon from './WorkoutIcon'
+
+// const images = {
+//   jogging: require('../../img/jogging.png'),
+//   gym: require('../../img/gym.png'),
+//   bicycle: require('../../img/bicycle.png'),
+//   stopwatch: require('../../img/stopwatch.png'),
+//   muscle: require('../../img/muscle.png')
+// }
+
 import {
   StackNavigator,
 } from 'react-navigation';
 
 const workoutTypes = {
-                       athletic_shoe: 'Jogging',
-                       ice_skate: 'Skating',
-                       ski: 'Skiing',
-                       dancer: 'Dancing',
-                       basketball: 'Basketball'
+                       jogging: 'Jogging',
+                       gym: 'Gym',
+                       bicycle: 'Cycling',
+                       // dancer: 'Dancing',
+                       stopwatch: '5-min warmup',
+                       kettlebell: 'Kettlebell workout'
                      };
 
 export class NewScreen extends React.Component {
 
-  state = { workoutType: 'athletic_shoe', realm: null }
+  state = { workoutType: 'jogging', realm: null }
 
   componentWillMount() {
     Realm.open({ schema: [WorkoutEntry] }).then(realm => { // here is realm
@@ -50,13 +63,25 @@ export class NewScreen extends React.Component {
   }
 
   render() {
+      // let workoutOptions = Object.keys(workoutTypes).map((option, index) => {
+      //   return (
+      //     <View key={index} style={styles.item}>
+      //       <Text style={{textAlign: 'center', fontSize: 40, backgroundColor: ( option == this.state.workoutType ? 'skyblue' : '#F5FCFF')}} onPress={() => { this.setState( { workoutType: option } ) } }>
+      //         <Emoji name={option} />
+      //       </Text>
+      //     </View>
+      //   )
+      // });
+
       let workoutOptions = Object.keys(workoutTypes).map((option, index) => {
         return (
-          <View key={index} style={styles.item}>
-            <Text style={{textAlign: 'center', fontSize: 40, backgroundColor: ( option == this.state.workoutType ? 'skyblue' : '#F5FCFF')}} onPress={() => { this.setState( { workoutType: option } ) } }>
-              <Emoji name={option} />
-            </Text>
-          </View>
+          <TouchableHighlight key={index}
+                              onPress={() => { this.setState( { workoutType: option } ) } }
+style={{margin: 10, backgroundColor: ( option == this.state.workoutType ? 'skyblue' : '#F5FCFF')}}
+                          >
+            <WorkoutIcon workoutType={option}/>
+
+          </TouchableHighlight>
         )
       });
 
@@ -75,14 +100,6 @@ export class NewScreen extends React.Component {
             title="Done!"
             accessibilityLabel="Add the Workout"
             onPress={this.saveWorkout}
-          />
-        </View>
-        <View style={styles.bottomRow}>
-          <Button
-            color="skyblue"
-            title="Back To Workouts!"
-            onPress={() => { this.props.navigation.navigate("Index") }}
-            accessibilityLabel="Back To Workouts!"
           />
         </View>
       </View>

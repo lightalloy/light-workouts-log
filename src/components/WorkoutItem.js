@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import Emoji from 'react-native-emoji';
+import WorkoutIcon from './WorkoutIcon'
 
 export class WorkoutItem extends React.Component {
 
@@ -24,9 +25,7 @@ export class WorkoutItem extends React.Component {
           <Text style={styles.caption}>{`${day}.${month}`} </Text>
           <Text style={{ fontSize: 15, color: 'red' }} onPress={() => { this.props.handleDelete(this.props.workout.id) }}>x</Text>
         </Text>
-        <Text style={{fontSize: 40}}>
-          <Emoji name={this.props.workout.workoutType} />
-        </Text>
+        <WorkoutIcon workoutType={this.props.workout.workoutType} />
       </View>
     );
   }

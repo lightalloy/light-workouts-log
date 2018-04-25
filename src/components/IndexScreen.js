@@ -6,7 +6,8 @@ import {
   View,
   Button,
   CameraRoll,
-  ToastAndroid
+  ToastAndroid,
+  ScrollView
 } from 'react-native';
 
 import ActionButton from 'react-native-action-button';
@@ -74,32 +75,38 @@ export class IndexScreen extends React.Component {
     });
 
     return (
-      <View style={styles.container}>
-        <ViewShot ref="viewShot" options={{ format: "jpg", quality: 0.9 }}>
-          <View style={{ backgroundColor: '#F5FCFF' }}>
-            <Text style={styles.welcome}>
-              You've done {this.state.workouts.length} workouts!
-            </Text>
-            {workoutsRows}
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.container}>
+          <View>
+            <Button onPress={this.share} title="Share" />
           </View>
-        </ViewShot>
-        <ActionButton
-          buttonColor="#6698FF"
-          onPress={() => { this.props.navigation.navigate("New") }}
-        />
-        <View style={{marginTop: 50}}>
-          <Button onPress={this.share} title="Share" />
+          <ViewShot ref="viewShot" options={{ format: "jpg", quality: 0.9 }}>
+            <View style={{ backgroundColor: '#F5FCFF' }}>
+              <Text style={styles.welcome}>
+                You've done {this.state.workouts.length} workouts!
+              </Text>
+              {workoutsRows}
+            </View>
+          </ViewShot>
+          <ActionButton
+            buttonColor="#6698FF"
+            onPress={() => { this.props.navigation.navigate("New") }}
+          />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flex: 1,
+    justifyContent: 'flex-start'
+  },
   container: {
     flex: 1,
     // justifyContent: 'center',
-    alignItems: 'flex-start',
+    // alignItems: 'flex-start',
     backgroundColor: '#F5FCFF',
   },
   row: {
