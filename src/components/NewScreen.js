@@ -9,6 +9,7 @@ import {
   Image
 } from 'react-native';
 
+import moment from 'moment'
 
 import Emoji from 'react-native-emoji';
 
@@ -57,7 +58,7 @@ export class NewScreen extends React.Component {
   saveWorkout = () => {
     let realm = this.state.realm;
     realm.write(() => {
-      const wEntry = realm.create(WorkoutEntry, { id: this.nextWorkoutId(), workoutType: this.state.workoutType, time: new Date().getTime(), comment: 'test' });
+      const wEntry = realm.create(WorkoutEntry, { id: this.nextWorkoutId(), workoutType: this.state.workoutType, time: moment().unix(), comment: 'test' });
       this.props.navigation.navigate("Index");
     });
   }

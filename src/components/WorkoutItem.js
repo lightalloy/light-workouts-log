@@ -7,17 +7,18 @@ import {
 } from 'react-native';
 
 import Emoji from 'react-native-emoji';
-import WorkoutIcon from './WorkoutIcon'
+import WorkoutIcon from './WorkoutIcon';
+import moment from 'moment';
 
 export class WorkoutItem extends React.Component {
 
   state = {}
 
   render() {
-    let date = new Date(this.props.workout.time);
-    let month = date.getMonth() + 1;
+    let date = moment(this.props.workout.time*1000);
+    let month = date.month() + 1;
     month = month < 10 ? `0${month}` : month;
-    let day = date.getDate();
+    let day = date.date();
     day = day < 10 ? `0${day}` : day;
     return (
       <View style={styles.item}>
