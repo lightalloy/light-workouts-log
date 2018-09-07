@@ -18,6 +18,7 @@ import ViewShot from "react-native-view-shot";
 import Realm from 'realm';
 import WorkoutEntry from './../models/WorkoutEntry';
 import WorkoutItem from './../components/WorkoutItem'
+import MonthSwitcher from './../components/MonthSwitcher'
 
 import moment from 'moment'
 
@@ -36,6 +37,9 @@ export class IndexScreen extends React.Component {
   }
 
   componentDidMount() {
+    // const realm = await Realm.open({ schema: [WorkoutEntry] });
+    // this.setState({ realm: realm });
+    // this.loadWorkouts(this.state.year, this.state.month);
     Realm.open({ schema: [WorkoutEntry] }).then(realm => { // here is realm
       this.setState({ realm: realm });  // set it to state
       this.loadWorkouts(this.state.year, this.state.month);
@@ -43,7 +47,7 @@ export class IndexScreen extends React.Component {
   }
 
   loadWorkouts = (year, month) => {
-    // TODO - move to repository - find workouts for the specified month andyear
+    // TODO - move to repository - find workouts for the specified month and year
     // input -- current month
     let now = moment();
     let time = moment(new Date(year, month, 1))
@@ -74,33 +78,6 @@ export class IndexScreen extends React.Component {
     });
   }
 
-  nextMonth = () => {
-    let nextM, nextY;
-    if (this.state.month === 11){
-      nextM = 0;
-      nextY = this.state.year + 1;
-    }
-    else {
-      nextM = this.state.month + 1;
-      nextY = this.state.year;
-    }
-    this.loadWorkouts(nextY, nextM);
-    this.setState({ month: nextM, year: nextY });
-  }
-
-  prevMonth = () => {
-    let prevM, prevY;
-    if (this.state.month === 0){
-      prevM = 11;
-      prevY = this.state.year - 1;
-    }
-    else {
-      prevM = this.state.month - 1;
-      prevY = this.state.year;
-    }
-    this.loadWorkouts(prevY, prevM);
-    this.setState({ month: prevM, year: prevY });  }
-
   render() {
     let rows = _.chunk(this.state.workouts, 5);
     let workoutsRows = rows.map((row, index) => {
@@ -113,13 +90,7 @@ export class IndexScreen extends React.Component {
 
     return (
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Button
-          onPress={this.prevMonth}
-          title="<"
-          buttonStyle={{backgroundColor: 'white', borderColor: 'rgba(78, 116, 289, 1)', borderWidth: 1}} titleStyle={{color: 'rgba(78, 116, 289, 1)'}} />
-        <Text>{moment(this.state.month + 1, 'MM').format('MMMM, YYYY')}</Text>
-        <Button onPress={this.nextMonth} title=">" />
-
+        <MonthSwitcher onMonthSwitch={this.loadWorkouts} />
         <View style={styles.container}>
           <View>
             <Button onPress={this.share} title="Share" />
